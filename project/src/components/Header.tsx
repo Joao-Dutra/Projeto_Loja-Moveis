@@ -38,7 +38,7 @@ export function Header() {
             </Link>
             
             <Link to="/shop" className="text-gray-600 hover:text-gray-900">
-              Shop
+              Móveis
             </Link>
 
             <CategoryMenu />
