@@ -34,7 +34,7 @@ export function Header() {
 
           <div className="flex items-center space-x-8">
             <Link to="/" className="text-gray-600 hover:text-gray-900">
-              Home
+              Inicio
             </Link>
             
             <Link to="/shop" className="text-gray-600 hover:text-gray-900">
@@ -44,7 +44,7 @@ export function Header() {
             <CategoryMenu />
 
             <Link to="/about" className="text-gray-600 hover:text-gray-900">
-              About
+              Sobre
             </Link>
 
             <Link 

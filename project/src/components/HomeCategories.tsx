@@ -5,27 +5,27 @@ const categories = [
   {
     name: 'Living Room',
     image: 'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-    description: 'Create your perfect living space'
+    description: 'Crie o seu espaço de vida perfeito'
   },
   {
     name: 'Bedroom',
     image: 'https://images.unsplash.com/photo-1505693314120-0d443867891c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80',
-    description: 'Rest in style and comfort'
+    description: 'Descanse com estilo e conforto'
   },
   {
     name: 'Dining Room',
     image: 'https://images.unsplash.com/photo-1577140917170-285929fb55b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1974&q=80',
-    description: 'Gather in elegance'
+    description: 'Reúna-se com elegância'
   },
   {
     name: 'Office',
     image: 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80',
-    description: 'Professional workspace solutions'
+    description: 'Soluções profissionais para espaços de trabalho'
   },
   {
     name: 'Outdoor',
     image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1974&q=80',
-    description: 'Extend your living space outside'
+    description: 'Desfrute do ar livre com estilo'
   }
 ];
 

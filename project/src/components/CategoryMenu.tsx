@@ -33,7 +33,7 @@ export function CategoryMenu() {
   return (
     <Menu as="div" className="relative">
       <Menu.Button className="flex items-center text-gray-600 hover:text-gray-900">
-        Categories
+        Categorias
         <ChevronDown className="ml-1 h-4 w-4" />
       </Menu.Button>
       <Menu.Items className="absolute z-10 mt-2 w-96 rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5">
