@@ -35,6 +35,23 @@ public class Produto {
     public List<String> getImages() {
         return this.imagens != null ? List.of(this.imagens) : List.of(); // Retorna uma lista vazia se for null
     }
+    @JsonProperty("color")
+    private String color;
+
+    @JsonProperty("material")
+    private String material;
+    
+    @JsonProperty("tamanho")
+    private String tamanho;
+
+
+    public String getTamanho() {
+        return tamanho;
+    }
+
+    public void setTamanho(String tamanho) {
+        this.tamanho = tamanho;
+    }
 
     // Getters e Setters
     public Long getId() {
@@ -91,5 +108,19 @@ public class Produto {
 
     public void setImagens(String imagens) {
         this.imagens = imagens;
+    }
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+    public String getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
     }
 }

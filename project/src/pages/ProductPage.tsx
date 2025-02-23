@@ -15,9 +15,23 @@ export function ProductPage() {
 
   useEffect(() => {
     if (id) {
-      fetchProdutoById(id).then(setProduct);
+      fetchProdutoById(id).then((prod) => {
+        setProduct(prod);
+      });
     }
   }, [id]);
+
+  // Quando o produto for carregado, seta as opções de cor e tamanho (se existirem) automaticamente.
+  useEffect(() => {
+    if (product) {
+      if (product.color) {
+        setSelectedColor(product.color);
+      }
+      if (product.tamanho) {
+        setSelectedSize(product.tamanho);
+      }
+    }
+  }, [product]);
 
   if (!product) {
     return <div>Carregando produto...</div>;
@@ -44,7 +58,7 @@ export function ProductPage() {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8">
       <div>
         <img
-          src={`http://localhost:8080${product.imagens}`} 
+          src={`http://localhost:8080${product.imagens}`}
           alt={product.name}
           className="w-full h-auto rounded-lg"
         />
@@ -64,9 +78,9 @@ export function ProductPage() {
             className="border border-gray-300 rounded p-2 w-full"
           >
             <option value="">Selecione uma cor</option>
-            <option value="red">Vermelho</option>
-            <option value="blue">Azul</option>
-            <option value="green">Verde</option>
+            {product.color && (
+              <option value={product.color}>{product.color}</option>
+            )}
           </select>
         </div>
 
@@ -78,9 +92,9 @@ export function ProductPage() {
             className="border border-gray-300 rounded p-2 w-full"
           >
             <option value="">Selecione um tamanho</option>
-            <option value="small">Pequeno</option>
-            <option value="medium">Médio</option>
-            <option value="large">Grande</option>
+            {product.tamanho && (
+              <option value={product.tamanho}>{product.tamanho}</option>
+            )}
           </select>
         </div>
 

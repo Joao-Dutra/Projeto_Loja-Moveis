@@ -15,14 +15,14 @@ export function Header() {
           <div className="flex items-center space-x-4">
             <span className="flex items-center">
               <Phone className="h-4 w-4 mr-2" />
-              (555) 123-4567
+              (031) 123-4567
             </span>
             <span className="flex items-center">
               <MapPin className="h-4 w-4 mr-2" />
-              123 Furniture Avenue, Craftstown
+              Rua Marechal Floriano Peixoto, 207, São Sebastião 
             </span>
           </div>
-          <div>Mon-Sat: 9AM-6PM | Sun: 11AM-4PM</div>
+          <div>Seg-Sex: 8:00-17:00 | Sáb: 08:00-12:00</div>
         </div>
       </div>
       

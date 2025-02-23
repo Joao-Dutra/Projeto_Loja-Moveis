@@ -1,16 +1,16 @@
 export interface Product {
-  id: number;              // Back-end envia como número
-  name: string;            // Mapeado com @JsonProperty("name")
-  description: string;     // Mapeado com @JsonProperty("description")
-  price: number;           // Mapeado com @JsonProperty("price")
-  category: string | null; // Pode ser null, então deixamos como opcional
-  images: string[];        // Recebe um array do back-end
-  stock: number;           // Mapeado com @JsonProperty("stock")
-  colors?: string[];       // Campos adicionais do front-end
-  sizes?: string[];
-  material?: string;
-  style?: string;
+  id: number;
+  name: string;
+  description: string;
+  category: string;
+  price: number;
+  stock: number;
+  images: string[];
+  color: string;      // Altera de "colors" para "color"
+  material: string;
+  tamanho: string;    // Altera de "sizes" para "tamanho"
 }
+
 
 
 export interface CartItem extends Product {

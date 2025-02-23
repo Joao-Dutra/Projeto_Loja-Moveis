@@ -35,6 +35,9 @@ public class ProdutoService {
         produto.setPreco(produtoAtualizado.getPreco());
         produto.setEstoque(produtoAtualizado.getEstoque());
         produto.setImagens(produtoAtualizado.getImagens());
+        produto.setColor(produtoAtualizado.getColor());
+        produto.setMaterial(produtoAtualizado.getMaterial());
+        produto.setTamanho(produtoAtualizado.getTamanho());
         return produtoRepository.save(produto);
     }
 
