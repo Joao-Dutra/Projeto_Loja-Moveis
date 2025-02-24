@@ -1,3 +1,4 @@
+// ShopPage.tsx
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ProductCard } from '../components/ProductCard';
@@ -17,7 +18,7 @@ export function ShopPage() {
   const [searchParams] = useSearchParams();
   const [products, setProducts] = useState<any[]>([]);
   const [selectedFilters, setSelectedFilters] = useState<SelectedFilters>({
-    category: searchParams.get('category') || '',
+    category: decodeURIComponent(searchParams.get('category') || ''),
     color: '',
     size: '',
     material: '',
@@ -37,6 +38,11 @@ export function ShopPage() {
     loadProdutos();
   }, []);
 
+  useEffect(() => {
+    const category = decodeURIComponent(searchParams.get('category') || '');
+    setSelectedFilters((prev) => ({ ...prev, category }));
+  }, [searchParams]);
+
   const handleFilterChange = (filterType: keyof SelectedFilters, value: string) => {
     setSelectedFilters((prev) => ({
       ...prev,
@@ -44,22 +50,21 @@ export function ShopPage() {
     }));
   };
 
-  // Filtragem dos produtos
   const filteredProducts = products.filter((product) => {
     return (
-      (!selectedFilters.category || product.categoria === selectedFilters.category) &&
-      (!selectedFilters.color || product.variacoes?.some((v: any) => v.cor.toLowerCase() === selectedFilters.color.toLowerCase())) &&
-      (!selectedFilters.size || product.variacoes?.some((v: any) => v.tamanho.toLowerCase() === selectedFilters.size.toLowerCase())) &&
-      (!selectedFilters.material || product.variacoes?.some((v: any) => v.material.toLowerCase() === selectedFilters.material.toLowerCase())) &&
+      (!selectedFilters.category || product.categoria?.toLowerCase().includes(selectedFilters.category.toLowerCase())) &&
+      (!selectedFilters.color || product.variacoes?.some((v: any) => v.cor?.toLowerCase() === selectedFilters.color.toLowerCase())) &&
+      (!selectedFilters.size || product.variacoes?.some((v: any) => v.tamanho?.toLowerCase() === selectedFilters.size.toLowerCase())) &&
+      (!selectedFilters.material || product.variacoes?.some((v: any) => v.material?.toLowerCase() === selectedFilters.material.toLowerCase())) &&
       (!selectedFilters.style || product.estilo?.toLowerCase() === selectedFilters.style.toLowerCase()) &&
       (!selectedFilters.priceRange || product.variacoes?.some((v: any) => {
-        const price = parseFloat(v.preco);
+        const price = Number(v.preco);
         switch (selectedFilters.priceRange) {
-          case 'Under $300': return price < 300;
-          case '$300 - $599': return price >= 300 && price <= 599;
-          case '$600 - $999': return price >= 600 && price <= 999;
-          case '$1000 - $1499': return price >= 1000 && price <= 1499;
-          case '$1500+': return price >= 1500;
+          case 'Abaixo de R$300': return price < 300;
+          case 'R$300 - R$599': return price >= 300 && price <= 599;
+          case 'R$600 - R$999': return price >= 600 && price <= 999;
+          case 'R$1000 - R$1499': return price >= 1000 && price <= 1499;
+          case 'R$1500+': return price >= 1500;
           default: return true;
         }
       }))
@@ -72,11 +77,11 @@ export function ShopPage() {
       <div className="grid grid-cols-4 gap-8">
         <div className="col-span-1">
           <ProductFilters
-            categories={['Sofá', 'Cadeira', 'Mesa', 'Poltrona', 'Estante', 'Guarda-Roupa', 'Cama', 'Rack']}
+            categories={['Sala de Estar', 'Quarto', 'Sala de Jantar', 'Escritório', 'Quintal']}
             colors={['Cinza', 'Marrom', 'Branco', 'Bege', 'Natural']}
             sizes={['Pequeno', 'Médio', 'Grande']}
             materials={['Madeira', 'Madeira Maciça', 'Madeira Nobre', 'Tecido']}
-            styles={['Moderno', 'Classico', 'Rústico']}
+            styles={['Moderno', 'Clássico', 'Rústico']}
             priceRanges={[
               { min: 0, max: 299.99, label: 'Abaixo de R$300' },
               { min: 300, max: 599.99, label: 'R$300 - R$599' },

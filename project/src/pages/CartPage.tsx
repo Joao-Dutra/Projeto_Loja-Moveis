@@ -76,10 +76,7 @@ export function CartPage() {
             Ou 12x de R${(total() / 12).toFixed(2)}
           </p>
         </div>
-        <Link
-          to="/checkout"
-          className="bg-gray-900 text-white px-6 py-3 rounded-md hover:bg-gray-800"
-        >
+        <Link to="/checkout" className="bg-gray-900 text-white px-6 py-3 rounded-md hover:bg-gray-800">
           Ir para o Checkout
         </Link>
       </div>
