@@ -9,12 +9,12 @@ export function CartPage() {
   if (items.length === 0) {
     return (
       <div className="text-center py-12">
-        <h2 className="text-2xl font-semibold mb-4">Seu carrinho está vazio</h2>
+        <h2 className="text-2xl font-semibold mb-4">Seu carrinho está vazio.</h2>
         <Link
           to="/shop"
           className="inline-block bg-gray-900 text-white px-6 py-3 rounded-md hover:bg-gray-800"
         >
-          Continue comprando
+          Continue comprando!
         </Link>
       </div>
     );
@@ -22,7 +22,7 @@ export function CartPage() {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-2xl font-bold">Shopping Cart</h1>
+      <h1 className="text-2xl font-bold">Carrinho</h1>
 
       <div className="space-y-4">
         {items.map((item) => (
@@ -44,7 +44,7 @@ export function CartPage() {
                 Material: {item.selectedMaterial}
               </p>
               <p className="text-sm text-gray-500">
-                Assembly: {item.assemblyOption}
+                Montagem: {item.assemblyOption}
               </p>
             </div>
             <div className="flex items-center gap-4">
@@ -79,14 +79,14 @@ export function CartPage() {
         <div>
           <p className="text-lg font-semibold">Total: ${total().toFixed(2)}</p>
           <p className="text-sm text-gray-500">
-            Or 12x of ${(total() / 12).toFixed(2)}
+            Ou 12x de R${(total() / 12).toFixed(2)}
           </p>
         </div>
         <Link
           to="/checkout"
           className="bg-gray-900 text-white px-6 py-3 rounded-md hover:bg-gray-800"
         >
-          Proceed to Checkout
+          Ir para o Checkout
         </Link>
       </div>
     </div>
