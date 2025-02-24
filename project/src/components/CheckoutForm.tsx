@@ -304,15 +304,15 @@ export function CheckoutForm() {
             )}
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Assembly Option</label>
+              <label className="block text-sm font-medium text-gray-700">Opções de Montagem</label>
               <select
                 value={assemblyOption}
                 onChange={(e) => setAssemblyOption(e.target.value as 'self' | 'onsite' | 'disassemble')}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
               >
-                <option value="self">Self Assembly</option>
-                <option value="onsite">Assembly on Site</option>
-                <option value="disassemble">Disassemble</option>
+                <option value="self">Montagem própria</option>
+                <option value="onsite">Montagem no local</option>
+                <option value="disassemble">Desmontado</option>
               </select>
             </div>
           </div>

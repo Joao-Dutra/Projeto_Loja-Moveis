@@ -79,13 +79,13 @@ export function ProductPage() {
     const item: CartItem = {
       id: product.id,
       name: product.name,
-      image: product.images?.[0]?.url || '/images/placeholder.jpg',
+      image: product.imagens?.[0]?.url ? product.imagens[0].url : '/images/placeholder.jpg', // <-- Removido "/images/"
       price: currentVariation.preco,
       quantity,
       selectedColor,
       selectedSize,
       selectedMaterial,
-      assemblyOption: "self",
+      assemblyOption: "Desmontado",
     };
 
     addItem(item);
@@ -113,9 +113,9 @@ export function ProductPage() {
 
         <p className="text-2xl font-semibold text-gray-900 mb-4">
           {currentVariation
-            ? `$${(currentVariation.preco * quantity).toFixed(2)}`
+            ? `R$${(currentVariation.preco * quantity).toFixed(2)}`
             : product.variacoes?.[0]?.preco !== undefined
-              ? `$${(product.variacoes[0].preco * quantity).toFixed(2)}`
+              ? `R$${(product.variacoes[0].preco * quantity).toFixed(2)}`
               : "Preço não disponível"}
         </p>
 
