@@ -68,7 +68,7 @@ export function ShopPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-2">Shop Furniture</h1>
+      <h1 className="text-2xl font-bold mb-2">Loja de Móveis</h1>
       <div className="grid grid-cols-4 gap-8">
         <div className="col-span-1">
           <ProductFilters

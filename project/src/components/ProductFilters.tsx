@@ -44,7 +44,7 @@ export function ProductFilters({
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold mb-4">Filters</h2>
+        <h2 className="text-lg font-semibold mb-4">Filtros</h2>
         <button 
           onClick={handleClearFilters} 
           className="flex items-center text-blue-600 hover:underline"
@@ -60,7 +60,7 @@ export function ProductFilters({
       
       <div className="space-y-6">
         <div>
-          <h3 className="text-sm font-medium text-gray-900 mb-2">Category</h3>
+          <h3 className="text-sm font-medium text-gray-900 mb-2">Categoria</h3>
           <div className="space-y-2">
             {categories.map((category) => (
               <label key={category} className="flex items-center">
@@ -110,7 +110,7 @@ export function ProductFilters({
         </div>
 
         <div>
-          <h3 className="text-sm font-medium text-gray-900 mb-2">Style</h3>
+          <h3 className="text-sm font-medium text-gray-900 mb-2">Estilo</h3>
           <select
             value={selectedFilters.style}
             onChange={(e) => onFilterChange('style', e.target.value)}
