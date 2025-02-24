@@ -14,10 +14,6 @@ export function ProductCard({ product }: ProductCardProps) {
             src={`http://localhost:8080${product.imagens?.[0]?.url || '/images/placeholder.jpg'}`}
             alt={product.nome || 'Produto sem nome'}
             className="w-full h-full object-cover object-center"
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.src = 'http://localhost:8080/images/default-image.jpg'; // Imagem padrão em caso de erro
-            }}
           />
         </div>
       </Link>
