@@ -54,12 +54,19 @@ export function ProductPage() {
 
   // Adicionar produto ao carrinho
   const handleAddToCart = () => {
+    console.log("Produto:", product); // Verifique no console do navegador
+
+    if (!product || !product.variacoes) {
+      alert("Erro: Produto ou variações não carregadas.");
+      return;
+    }
+
     if (!selectedColor || !selectedSize || !selectedMaterial) {
       alert("Selecione cor, tamanho e material.");
       return;
     }
 
-    const currentVariation = product.variations.find(
+    const currentVariation = product.variacoes.find(
       (v: Variation) =>
         v.color === selectedColor &&
         v.size === selectedSize &&
@@ -75,7 +82,7 @@ export function ProductPage() {
       id: product.id,
       name: product.name,
       image: product.images?.[0]?.url || '/images/placeholder.jpg',
-      price: currentVariation.price, // <- Agora utilizando o campo direto
+      price: currentVariation.preco,
       quantity,
       selectedColor,
       selectedSize,
@@ -86,6 +93,7 @@ export function ProductPage() {
     addItem(item);
     navigate("/cart");
   };
+
 
   if (!product) {
     return <div>Carregando produto...</div>;
