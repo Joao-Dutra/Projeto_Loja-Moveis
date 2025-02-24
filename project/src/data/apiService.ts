@@ -1,9 +1,16 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api";
 
+// Função para tratar a resposta
 const handleResponse = async (response: Response) => {
-  if (!response.ok) throw new Error(`Erro: ${response.statusText}`);
-  return response.json();
+  if (!response.ok) {
+    throw new Error(`Erro: ${response.statusText}`);
+  }
+
+  // Verifica se a resposta possui conteúdo antes de fazer o parsing
+  const text = await response.text();
+  return text ? JSON.parse(text) : null; // Retorna null caso não haja conteúdo
 };
+
 
 // Usuário
 export const fetchUsuarios = async () => handleResponse(await fetch(`${API_BASE_URL}/usuarios`));
@@ -122,5 +129,4 @@ export const createVariacaoProduto = async (variacao: any) =>
       body: JSON.stringify(variacao),
     })
   );
-  
-  
+
