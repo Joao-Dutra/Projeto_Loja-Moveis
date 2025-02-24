@@ -16,6 +16,13 @@ export function ProductPage() {
   const [quantity, setQuantity] = useState(1);
   const [currentVariation, setCurrentVariation] = useState<any>(null);
 
+  // Mapeamento de tamanhos
+  const sizeMapping: { [key: string]: string } = {
+    P: "Pequeno",
+    M: "Médio",
+    G: "Grande",
+  };
+
   // Carregar o produto pelo ID
   useEffect(() => {
     if (id) {
@@ -26,7 +33,7 @@ export function ProductPage() {
             variacoes: response.variacoes.map((v: any) => ({
               ...v,
               color: v.cor,
-              size: v.tamanho,
+              size: sizeMapping[v.tamanho] || v.tamanho, // Aplica o mapeamento
               price: v.preco,
               stock: v.estoque,
             })),
@@ -45,7 +52,7 @@ export function ProductPage() {
       const variation = product.variacoes.find(
         (v: any) =>
           v.cor === selectedColor &&
-          v.tamanho === selectedSize &&
+          v.size === selectedSize &&
           v.material === selectedMaterial
       );
       setCurrentVariation(variation || null);
@@ -64,13 +71,6 @@ export function ProductPage() {
       return;
     }
 
-    const currentVariation = product.variacoes.find(
-      (v: Variation) =>
-        v.color === selectedColor &&
-        v.size === selectedSize &&
-        v.material === selectedMaterial
-    );
-
     if (!currentVariation) {
       alert("Variedade não encontrada.");
       return;
@@ -79,7 +79,9 @@ export function ProductPage() {
     const item: CartItem = {
       id: product.id,
       name: product.name,
-      image: product.imagens?.[0]?.url ? product.imagens[0].url : '/images/placeholder.jpg', // <-- Removido "/images/"
+      image: product.imagens?.[0]?.url
+        ? product.imagens[0].url
+        : "/images/placeholder.jpg",
       price: currentVariation.preco,
       quantity,
       selectedColor,
@@ -92,7 +94,6 @@ export function ProductPage() {
     navigate("/cart");
   };
 
-
   if (!product) {
     return <div>Carregando produto...</div>;
   }
@@ -101,8 +102,8 @@ export function ProductPage() {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8">
       <div>
         <img
-          src={`http://localhost:8080${product.imagens?.[0]?.url || '/images/default.jpg'}`}
-          alt={product.nome || 'Produto sem nome'}
+          src={`http://localhost:8080${product.imagens?.[0]?.url || "/images/default.jpg"}`}
+          alt={product.nome || "Produto sem nome"}
           className="w-full h-96 object-cover rounded-lg"
         />
       </div>
@@ -128,30 +129,51 @@ export function ProductPage() {
             className="border border-gray-300 rounded p-2 w-full"
           >
             <option value="">Selecione uma cor</option>
-            {Array.from(new Set(product.variacoes.map((v: any) => v.cor))).map((cor, index) => (
-              <option key={index} value={cor?.toString()}> {/* <- Adicionei .toString() */}
+            {Array.from(
+              new Set(
+                product.variacoes
+                  .filter(
+                    (v: any) =>
+                      (!selectedSize || v.size === selectedSize) &&
+                      (!selectedMaterial || v.material === selectedMaterial)
+                  )
+                  .map((v: any) => v.cor)
+              )
+            ).map((cor, index) => (
+              <option key={index} value={cor?.toString()}>
                 {cor?.toString()}
               </option>
             ))}
           </select>
         </div>
 
-        {/* Dropdown de Tamanho */}
-        <div className="mb-4">
-          <label className="block mb-2 font-medium">Tamanho</label>
-          <select
-            value={selectedSize}
-            onChange={(e) => setSelectedSize(e.target.value)}
-            className="border border-gray-300 rounded p-2 w-full"
-          >
-            <option value="">Selecione um tamanho</option>
-            {Array.from(new Set(product.variacoes.map((v: any) => v.tamanho))).map((tamanho, index) => (
-              <option key={index} value={tamanho?.toString()}> {/* <- Adicionei .toString() */}
-                {tamanho?.toString()}
-              </option>
-            ))}
-          </select>
-        </div>
+       {/* Dropdown de Tamanho */}
+<div className="mb-4">
+  <label className="block mb-2 font-medium">Tamanho</label>
+  <select
+    value={selectedSize}
+    onChange={(e) => setSelectedSize(e.target.value)}
+    className="border border-gray-300 rounded p-2 w-full"
+  >
+    <option value="">Selecione um tamanho</option>
+    {Array.from(
+      new Set(
+        product.variacoes
+          .filter(
+            (v: any) =>
+              (!selectedColor || v.color === selectedColor) &&
+              (!selectedMaterial || v.material === selectedMaterial)
+          )
+          .map((v: any) => v.size) // Mapeia os tamanhos
+      )
+    ).map((tamanho, index) => (
+      <option key={index} value={tamanho?.toString()}>
+        {tamanho?.toString()}
+      </option>
+    ))}
+  </select>
+</div>
+
 
         {/* Dropdown de Material */}
         <div className="mb-4">
@@ -162,14 +184,23 @@ export function ProductPage() {
             className="border border-gray-300 rounded p-2 w-full"
           >
             <option value="">Selecione um material</option>
-            {Array.from(new Set(product.variacoes.map((v: any) => v.material))).map((material, index) => (
-              <option key={index} value={material?.toString()}> {/* <- Adicionei .toString() */}
+            {Array.from(
+              new Set(
+                product.variacoes
+                  .filter(
+                    (v: any) =>
+                      (!selectedColor || v.color === selectedColor) &&
+                      (!selectedSize || v.size === selectedSize)
+                  )
+                  .map((v: any) => v.material)
+              )
+            ).map((material, index) => (
+              <option key={index} value={material?.toString()}>
                 {material?.toString()}
               </option>
             ))}
           </select>
         </div>
-
 
         {/* Quantidade */}
         <div className="mb-4">
@@ -177,18 +208,27 @@ export function ProductPage() {
           <input
             type="number"
             value={quantity}
-            onChange={(e) => setQuantity(Math.max(1, Number(e.target.value)))}
+            onChange={(e) =>
+              setQuantity(Math.min(Math.max(1, Number(e.target.value)), currentVariation?.stock || 1))
+            }
             min="1"
+            max={currentVariation?.stock || 1}
             className="border border-gray-300 rounded p-2 w-full"
           />
+          {currentVariation && (
+            <p className="text-sm text-gray-500 mt-1">
+              Estoque disponível: {currentVariation.stock}
+            </p>
+          )}
         </div>
 
         {/* Botão Adicionar ao Carrinho */}
         <button
           onClick={handleAddToCart}
           className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 w-full"
+          disabled={!currentVariation || currentVariation?.stock === 0}
         >
-          Adicionar ao Carrinho
+          {currentVariation?.stock === 0 ? "Indisponível" : "Adicionar ao Carrinho"}
         </button>
       </div>
     </div>
