@@ -1,6 +1,7 @@
 import React from 'react';
 import { Menu } from '@headlessui/react';
 import { ChevronDown } from 'lucide-react';
+import filtroIcon from './filtro.png'; 
 
 interface FiltersProps {
   categories: string[];
@@ -20,7 +21,6 @@ interface FiltersProps {
   onFilterChange: (filterType: keyof FiltersProps['selectedFilters'], value: string) => void;
 }
 
-
 export function ProductFilters({
   categories,
   colors,
@@ -31,9 +31,32 @@ export function ProductFilters({
   selectedFilters,
   onFilterChange,
 }: FiltersProps) {
+
+  const handleClearFilters = () => {
+    onFilterChange('category', '');
+    onFilterChange('priceRange', '');
+    onFilterChange('material', '');
+    onFilterChange('style', '');
+    onFilterChange('color', '');
+    onFilterChange('size', '');
+  };
+
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm space-y-6">
-      <h2 className="text-lg font-semibold mb-4">Filters</h2>
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-semibold mb-4">Filters</h2>
+        <button 
+          onClick={handleClearFilters} 
+          className="flex items-center text-blue-600 hover:underline"
+        >
+          <img
+            src={filtroIcon}
+            alt="Limpar Filtros"
+            style={{ width: '28px', height: '28px' }}
+          />
+         
+        </button>
+      </div>
       
       <div className="space-y-6">
         <div>
