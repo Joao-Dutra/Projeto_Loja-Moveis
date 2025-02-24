@@ -104,7 +104,7 @@ export function ProductPage() {
         <img
           src={`http://localhost:8080${product.imagens?.[0]?.url || '/images/placeholder.jpg'}`}
           alt={product.nome || 'Produto sem nome'}
-          className="w-full h-96 object-cover rounded-lg"
+          className="w-full object-cover rounded-lg"
         />
       </div>
 
