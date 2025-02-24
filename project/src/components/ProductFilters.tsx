@@ -112,22 +112,6 @@ export function ProductFilters({
         </div>
 
         <div>
-          <h3 className="text-sm font-medium text-gray-900 mb-2">Estilo</h3>
-          <select
-            value={selectedFilters.style}
-            onChange={(e) => onFilterChange('style', e.target.value)}
-            className="w-full rounded-md border border-gray-300 py-2 px-3"
-          >
-            <option value="">Todos os Estilos</option>
-            {styles.map((style) => (
-              <option key={style} value={style}>
-                {style}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
           <h3 className="text-sm font-medium text-gray-900 mb-2">Cor</h3>
           <div className="grid grid-cols-4 gap-2">
             {colors.map((color) => (

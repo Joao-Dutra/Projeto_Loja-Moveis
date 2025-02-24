@@ -56,7 +56,6 @@ export function ShopPage() {
       (!selectedFilters.color || product.variacoes?.some((v: any) => v.cor?.toLowerCase() === selectedFilters.color.toLowerCase())) &&
       (!selectedFilters.size || product.variacoes?.some((v: any) => v.tamanho?.toLowerCase() === selectedFilters.size.toLowerCase())) &&
       (!selectedFilters.material || product.variacoes?.some((v: any) => v.material?.toLowerCase() === selectedFilters.material.toLowerCase())) &&
-      (!selectedFilters.style || product.estilo?.toLowerCase() === selectedFilters.style.toLowerCase()) &&
       (!selectedFilters.priceRange || product.variacoes?.some((v: any) => {
         const price = Number(v.preco);
         switch (selectedFilters.priceRange) {
