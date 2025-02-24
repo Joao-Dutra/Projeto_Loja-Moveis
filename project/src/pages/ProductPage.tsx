@@ -102,8 +102,8 @@ export function ProductPage() {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8">
       <div>
         <img
-          src={`http://localhost:8080${product.imagens?.[0]?.url || "/images/default.jpg"}`}
-          alt={product.nome || "Produto sem nome"}
+          src={`http://localhost:8080${product.imagens?.[0]?.url || '/images/placeholder.jpg'}`}
+          alt={product.nome || 'Produto sem nome'}
           className="w-full h-96 object-cover rounded-lg"
         />
       </div>
