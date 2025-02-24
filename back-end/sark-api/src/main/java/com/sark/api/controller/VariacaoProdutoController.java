@@ -17,11 +17,11 @@ public class VariacaoProdutoController {
     private VariacaoProdutoService variacaoProdutoService;
 
     @PostMapping
-    public ResponseEntity<VariacaoProduto> salvarVariacaoProduto(@RequestBody VariacaoProduto variacaoProduto) {
+    public ResponseEntity<VariacaoProduto> adicionarVariacaoProduto(@RequestBody VariacaoProduto variacaoProduto) {
         VariacaoProduto novaVariacao = variacaoProdutoService.salvarVariacaoProduto(variacaoProduto);
         return ResponseEntity.ok(novaVariacao);
     }
-
+    
     @GetMapping
     public ResponseEntity<List<VariacaoProduto>> listarTodasVariacoes() {
         List<VariacaoProduto> variacoes = variacaoProdutoService.listarTodas();
@@ -53,4 +53,5 @@ public class VariacaoProdutoController {
         variacaoProdutoService.deletarVariacaoProduto(id);
         return ResponseEntity.noContent().build();
     }
+    
 }

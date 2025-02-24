@@ -104,3 +104,21 @@ export const criarEnvioPedido = async (envio: any) =>
       body: JSON.stringify(envio),
     })
   );
+// Variação do Produto
+export const updateVariacaoProduto = async (id: string, variacao: any) =>
+  handleResponse(
+    await fetch(`${API_BASE_URL}/variacoes-produto/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(variacao),
+    })
+  );
+
+export const createVariacaoProduto = async (variacao: any) =>
+  handleResponse(
+    await fetch(`${API_BASE_URL}/variacoes-produto`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(variacao),
+    })
+  );

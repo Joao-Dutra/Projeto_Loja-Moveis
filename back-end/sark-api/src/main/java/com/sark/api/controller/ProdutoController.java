@@ -32,15 +32,18 @@ public class ProdutoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    // Endpoint para adicionar um produto
     @PostMapping
-    public Produto salvarProduto(@RequestBody Produto produto) {
-        return produtoService.salvarProduto(produto);
+    public ResponseEntity<Produto> adicionarProduto(@RequestBody Produto produto) {
+        Produto novoProduto = produtoService.salvarProduto(produto);
+        return ResponseEntity.ok(novoProduto);
     }
 
+    // Endpoint para editar um produto existente
     @PutMapping("/{id}")
-    public ResponseEntity<Produto> atualizarProduto(@PathVariable Long id, @RequestBody Produto produtoAtualizado) {
-        Produto produto = produtoService.atualizarProduto(id, produtoAtualizado);
-        return ResponseEntity.ok(produto);
+    public ResponseEntity<Produto> editarProduto(@PathVariable Long id, @RequestBody Produto produtoAtualizado) {
+        Produto produtoEditado = produtoService.atualizarProduto(id, produtoAtualizado);
+        return ResponseEntity.ok(produtoEditado);
     }
 
     @DeleteMapping("/{id}")

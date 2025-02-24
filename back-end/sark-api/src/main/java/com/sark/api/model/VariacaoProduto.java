@@ -1,31 +1,28 @@
 package com.sark.api.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "variacoes_produto")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class VariacaoProduto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String cor;
-
     private String tamanho;
-
     private String material;
-
     private Double preco;
-
     private Integer estoque;
 
     @ManyToOne
     @JoinColumn(name = "id_produto")
-    @JsonBackReference
     private Produto produto;
 
+    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -81,5 +78,4 @@ public class VariacaoProduto {
     public void setProduto(Produto produto) {
         this.produto = produto;
     }
-
 }
