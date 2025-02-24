@@ -1,7 +1,9 @@
 import React from 'react';
 import { Menu } from '@headlessui/react';
 import { ChevronDown } from 'lucide-react';
-import filtroIcon from './filtro.png'; 
+import filtroIcon from './filtro.png';
+import { colorMap } from '../types/constants';
+
 
 interface FiltersProps {
   categories: string[];
@@ -45,8 +47,8 @@ export function ProductFilters({
     <div className="bg-white p-6 rounded-lg shadow-sm space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold mb-4">Filtros</h2>
-        <button 
-          onClick={handleClearFilters} 
+        <button
+          onClick={handleClearFilters}
           className="flex items-center text-blue-600 hover:underline"
         >
           <img
@@ -54,10 +56,10 @@ export function ProductFilters({
             alt="Limpar Filtros"
             style={{ width: '28px', height: '28px' }}
           />
-         
+
         </button>
       </div>
-      
+
       <div className="space-y-6">
         <div>
           <h3 className="text-sm font-medium text-gray-900 mb-2">Categoria</h3>
@@ -132,17 +134,17 @@ export function ProductFilters({
               <button
                 key={color}
                 onClick={() => onFilterChange('color', color)}
-                className={`h-8 w-8 rounded-full border ${
-                  selectedFilters.color === color
+                className={`h-8 w-8 rounded-full border ${selectedFilters.color === color
                     ? 'ring-2 ring-offset-2 ring-gray-500'
                     : ''
-                }`}
-                style={{ backgroundColor: color.toLowerCase() }}
+                  }`}
+                style={{ backgroundColor: colorMap[color] || '#808080' }} // Usa o colorMap ou cinza como fallback
                 title={color}
               />
             ))}
           </div>
         </div>
+
 
         <div>
           <h3 className="text-sm font-medium text-gray-900 mb-2">Tamanho</h3>
@@ -151,11 +153,10 @@ export function ProductFilters({
               <button
                 key={size}
                 onClick={() => onFilterChange('size', size)}
-                className={`px-4 py-2 text-sm rounded-md ${
-                  selectedFilters.size === size
-                    ? 'bg-gray-900 text-white'
-                    : 'bg-gray-100 text-gray-900'
-                }`}
+                className={`px-4 py-2 text-sm rounded-md ${selectedFilters.size === size
+                  ? 'bg-gray-900 text-white'
+                  : 'bg-gray-100 text-gray-900'
+                  }`}
               >
                 {size}
               </button>
