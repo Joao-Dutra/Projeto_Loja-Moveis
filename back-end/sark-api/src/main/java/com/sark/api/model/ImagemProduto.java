@@ -1,10 +1,10 @@
 package com.sark.api.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "imagens_produto") // Nome correto conforme o banco de dados
+@Table(name = "imagens_produto")
 public class ImagemProduto {
 
     @Id
@@ -15,13 +15,8 @@ public class ImagemProduto {
 
     @ManyToOne
     @JoinColumn(name = "id_produto")
-    @JsonIgnore // Evita recursão infinita
+    @JsonBackReference // Evita loop infinito ao serializar JSON
     private Produto produto;
-
-    @ManyToOne
-    @JoinColumn(name = "id_variacao")
-    @JsonIgnore // Evita recursão infinita
-    private VariacaoProduto variacao;
 
     // Getters e Setters
     public Long getId() {
@@ -46,13 +41,5 @@ public class ImagemProduto {
 
     public void setProduto(Produto produto) {
         this.produto = produto;
-    }
-
-    public VariacaoProduto getVariacao() {
-        return variacao;
-    }
-
-    public void setVariacao(VariacaoProduto variacao) {
-        this.variacao = variacao;
     }
 }

@@ -1,5 +1,6 @@
 package com.sark.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
@@ -18,9 +19,11 @@ public class VariacaoProduto {
     private Double preco;
     private Integer estoque;
 
-    @ManyToOne
-    @JoinColumn(name = "id_produto")
+   @ManyToOne
+    @JoinColumn(name = "id_produto", nullable = false)
+    @JsonBackReference // Evita loop infinito ao serializar JSON
     private Produto produto;
+
 
     // Getters e Setters
     public Long getId() {

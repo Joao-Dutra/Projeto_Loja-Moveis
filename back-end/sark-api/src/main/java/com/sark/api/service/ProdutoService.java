@@ -4,7 +4,7 @@ import com.sark.api.model.Produto;
 import com.sark.api.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,8 +14,14 @@ public class ProdutoService {
     @Autowired
     private ProdutoRepository produtoRepository;
 
+    @Transactional
     public List<Produto> listarProdutos() {
-        return produtoRepository.findAllWithVariacoesAndImagens();
+        List<Produto> produtos = produtoRepository.findAll();
+        produtos.forEach(produto -> {
+            produto.getVariacoes().size(); // Inicializa a coleção
+            produto.getImagens().size();   // Inicializa a coleção
+        });
+        return produtos;
     }
 
     public Optional<Produto> buscarProdutoPorId(Long id) {

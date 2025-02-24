@@ -63,10 +63,18 @@ export default function ProductEdition() {
   // Carrega os produtos ao montar o componente
   useEffect(() => {
     fetchProdutos()
-      .then((data) => setProdutos(data))
+      .then((data) => {
+        const produtosFormatados = data.map((produto: Produto) => ({
+          ...produto,
+          variacoes: Array.from(produto.variacoes || []), // Converte Set para Array
+          imagens: Array.from(produto.imagens || []), // Converte Set para Array
+        }));
+        setProdutos(produtosFormatados);
+      })
       .catch((error) => console.error('Erro ao buscar produtos:', error));
   }, []);
-
+  
+  
   const resetForm = () => {
     setFormData({ nome: '', descricao: '', categoria: '', preco: 0 });
     setPreco(0);

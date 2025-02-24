@@ -3,6 +3,8 @@ package com.sark.api.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -18,10 +20,14 @@ public class Produto {
     private String categoria;
 
     @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference // Garante que as variações sejam incluídas no JSON
     private Set<VariacaoProduto> variacoes = new HashSet<>();
-
+    
     @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference // Garante que as imagens sejam incluídas no JSON
     private Set<ImagemProduto> imagens = new HashSet<>();
+    
+
 
     // Getters e Setters
     public Long getId() {
