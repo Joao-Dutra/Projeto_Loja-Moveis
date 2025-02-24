@@ -44,16 +44,38 @@ export function ShopPage() {
     }));
   };
 
+  // Filtragem dos produtos
+  const filteredProducts = products.filter((product) => {
+    return (
+      (!selectedFilters.category || product.categoria === selectedFilters.category) &&
+      (!selectedFilters.color || product.variacoes?.some((v: any) => v.cor.toLowerCase() === selectedFilters.color.toLowerCase())) &&
+      (!selectedFilters.size || product.variacoes?.some((v: any) => v.tamanho.toLowerCase() === selectedFilters.size.toLowerCase())) &&
+      (!selectedFilters.material || product.variacoes?.some((v: any) => v.material.toLowerCase() === selectedFilters.material.toLowerCase())) &&
+      (!selectedFilters.style || product.estilo?.toLowerCase() === selectedFilters.style.toLowerCase()) &&
+      (!selectedFilters.priceRange || product.variacoes?.some((v: any) => {
+        const price = parseFloat(v.preco);
+        switch (selectedFilters.priceRange) {
+          case 'Under $300': return price < 300;
+          case '$300 - $599': return price >= 300 && price <= 599;
+          case '$600 - $999': return price >= 600 && price <= 999;
+          case '$1000 - $1499': return price >= 1000 && price <= 1499;
+          case '$1500+': return price >= 1500;
+          default: return true;
+        }
+      }))
+    );
+  });
+
   return (
     <div>
       <h1 className="text-2xl font-bold mb-2">Shop Furniture</h1>
       <div className="grid grid-cols-4 gap-8">
         <div className="col-span-1">
           <ProductFilters
-            categories={['Sofas', 'Chairs', 'Tables']}  // Substitua pelos seus valores reais
-            colors={['Red', 'Blue', 'Green']}
-            sizes={['Small', 'Medium', 'Large']}
-            materials={['Wood', 'Metal', 'Fabric']}
+            categories={['Sofas', 'Chairs', 'Tables', 'Poltrona', 'Estante', 'Guarda-Roupa', 'Cama', 'Rack']}
+            colors={['Red', 'Blue', 'Green', 'Cinza', 'Marrom', 'Branco', 'Bege', 'Natural']}
+            sizes={['Small', 'Medium', 'Large', 'Pequeno', 'Médio', 'Grande']}
+            materials={['Wood', 'Metal', 'Fabric', 'Madeira', 'Madeira Maciça', 'Madeira Nobre', 'Tecido']}
             styles={['Modern', 'Classic', 'Rustic']}
             priceRanges={[
               { min: 0, max: 299.99, label: 'Under $300' },
@@ -68,7 +90,7 @@ export function ShopPage() {
         </div>
         <div className="col-span-3">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.map((product) => (
+            {filteredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
@@ -76,5 +98,4 @@ export function ShopPage() {
       </div>
     </div>
   );
-  
 }

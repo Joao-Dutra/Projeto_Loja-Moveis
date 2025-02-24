@@ -1,40 +1,37 @@
 package com.sark.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "variacoes_produto")
 public class VariacaoProduto {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "id_produto", nullable = false)
-    private Produto produto;
-
     private String cor;
+
     private String tamanho;
 
-    @Column(nullable = false)
-    private int estoque;
+    private String material;
 
-    // Getters e Setters
+    private Double preco;
+
+    private Integer estoque;
+
+    @ManyToOne
+    @JoinColumn(name = "id_produto")
+    @JsonBackReference
+    private Produto produto;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Produto getProduto() {
-        return produto;
-    }
-
-    public void setProduto(Produto produto) {
-        this.produto = produto;
     }
 
     public String getCor() {
@@ -53,6 +50,22 @@ public class VariacaoProduto {
         this.tamanho = tamanho;
     }
 
+    public String getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
+    }
+
+    public Double getPreco() {
+        return preco;
+    }
+
+    public void setPreco(Double preco) {
+        this.preco = preco;
+    }
+
     public int getEstoque() {
         return estoque;
     }
@@ -60,4 +73,13 @@ public class VariacaoProduto {
     public void setEstoque(int estoque) {
         this.estoque = estoque;
     }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+
 }

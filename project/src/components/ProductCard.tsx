@@ -1,34 +1,33 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { Product } from '../types';
 
 interface ProductCardProps {
-  product: Product;
+  product: any;
 }
 
 export function ProductCard({ product }: ProductCardProps) {
   return (
-    <Link to={`/product/${product.id}`} className="group">
-      <div className="aspect-square w-full overflow-hidden rounded-lg bg-gray-200">
-        <img
-          src={`http://localhost:8080${product.images[0]}`} // URL completa do back-end
-          alt={product.name}
-          className="h-full w-full object-cover object-center group-hover:opacity-75"
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.src = 'http://localhost:8080/images/default-image.jpg'; // Imagem padrão em caso de erro
-          }}
-        />
-      </div>
-      <div className="mt-4 flex justify-between">
-        <div>
-          <h3 className="text-sm text-gray-700">{product.name}</h3>
-          <p className="mt-1 text-sm text-gray-500">{product.category}</p>
+    <div className="border rounded-lg p-4 shadow-sm overflow-hidden">
+      <Link to={`/product/${product.id}`}>
+        <div className="w-full h-64 overflow-hidden rounded-lg bg-gray-200 flex items-center justify-center">
+          <img
+            src={`http://localhost:8080${product.imagens?.[0]?.url || '/images/placeholder.jpg'}`}
+            alt={product.nome || 'Produto sem nome'}
+            className="w-full h-full object-cover object-center"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = 'http://localhost:8080/images/default-image.jpg'; // Imagem padrão em caso de erro
+            }}
+          />
         </div>
-        <p className="text-sm font-medium text-gray-900">
-          ${product.price.toFixed(2)}
-        </p>
-      </div>
-    </Link>
+      </Link>
+      <h3 className="text-lg font-bold mt-2 line-clamp-1">{product.nome}</h3>
+      <p className="text-gray-600 line-clamp-2">{product.descricao}</p>
+      <p className="text-xl font-semibold text-gray-900 mt-2">
+        {product.variacoes?.[0]?.preco !== undefined
+          ? `$${product.variacoes[0].preco.toFixed(2)}`
+          : "Preço não disponível"}
+      </p>
+    </div>
   );
 }

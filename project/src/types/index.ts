@@ -1,23 +1,38 @@
 export interface Product {
-  id: number;              // Back-end envia como número
-  name: string;            // Mapeado com @JsonProperty("name")
-  description: string;     // Mapeado com @JsonProperty("description")
-  price: number;           // Mapeado com @JsonProperty("price")
-  category: string | null; // Pode ser null, então deixamos como opcional
-  images: string[];        // Recebe um array do back-end
-  stock: number;           // Mapeado com @JsonProperty("stock")
-  colors?: string[];       // Campos adicionais do front-end
-  sizes?: string[];
-  material?: string;
-  style?: string;
+  id: number;
+  name: string;
+  description: string;
+  category: string;
+  variations: Variation[]; // Array de variações
+  images: Image[]; // Array de imagens
 }
 
+export interface Variation {
+  id: number;
+  productId: number; // Referência ao produto
+  color: string;
+  size: string;
+  material: string;
+  price: number;
+  stock: number;
+}
 
-export interface CartItem extends Product {
+export interface Image {
+  id: number;
+  productId: number;  // Referência ao produto
+  variationId?: number; // Caso a imagem pertença a uma variação específica
+  url: string;
+}
+export interface CartItem {
+  id: number;
+  name: string;    // Alterado de 'nome' para 'name'
+  image: string;
+  price: number;   // <- Adicionado para armazenar o preço da variação selecionada
   quantity: number;
   selectedColor: string;
   selectedSize: string;
-  assemblyOption: 'self' | 'onsite' | 'disassemble';
+  selectedMaterial: string;
+  assemblyOption: string;
 }
 
 export interface CustomerInfo {

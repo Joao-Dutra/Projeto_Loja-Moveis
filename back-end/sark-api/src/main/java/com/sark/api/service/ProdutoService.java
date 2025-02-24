@@ -15,7 +15,7 @@ public class ProdutoService {
     private ProdutoRepository produtoRepository;
 
     public List<Produto> listarProdutos() {
-        return produtoRepository.findAll();
+        return produtoRepository.findAllWithVariacoesAndImagens();
     }
 
     public Optional<Produto> buscarProdutoPorId(Long id) {
@@ -32,8 +32,7 @@ public class ProdutoService {
         produto.setNome(produtoAtualizado.getNome());
         produto.setDescricao(produtoAtualizado.getDescricao());
         produto.setCategoria(produtoAtualizado.getCategoria());
-        produto.setPreco(produtoAtualizado.getPreco());
-        produto.setEstoque(produtoAtualizado.getEstoque());
+        produto.setVariacoes(produtoAtualizado.getVariacoes());
         produto.setImagens(produtoAtualizado.getImagens());
         return produtoRepository.save(produto);
     }

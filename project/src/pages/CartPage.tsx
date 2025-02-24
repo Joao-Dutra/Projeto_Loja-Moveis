@@ -1,3 +1,4 @@
+// src/pages/CartPage.tsx
 import { Link } from 'react-router-dom';
 import { useCartStore } from '../store/cartStore';
 import { Trash2 } from 'lucide-react';
@@ -30,14 +31,17 @@ export function CartPage() {
             className="flex items-center gap-4 bg-white p-4 rounded-lg shadow-sm"
           >
             <img
-              src={`http://localhost:8080${item.images}`}
-              alt={item.name}
+              src={`http://localhost:8080${item.image || '/images/placeholder.jpg'}`}
+              alt={item.name || 'Produto sem nome'} // Alterado de item.nome para item.name
               className="w-24 h-24 object-cover rounded"
             />
             <div className="flex-1">
-              <h3 className="font-semibold">{item.name}</h3>
+              <h3 className="font-semibold">{item.name}</h3> {/* Alterado de item.nome para item.name */}
               <p className="text-sm text-gray-500">
                 {item.selectedColor} - {item.selectedSize}
+              </p>
+              <p className="text-sm text-gray-500">
+                Material: {item.selectedMaterial}
               </p>
               <p className="text-sm text-gray-500">
                 Assembly: {item.assemblyOption}
@@ -58,7 +62,7 @@ export function CartPage() {
                 ))}
               </select>
               <p className="font-semibold">
-                ${(item.price * item.quantity).toFixed(2)}
+                ${(item.price * item.quantity).toFixed(2)} {/* Alterado para usar item.price */}
               </p>
               <button
                 onClick={() => removeItem(String(item.id))}

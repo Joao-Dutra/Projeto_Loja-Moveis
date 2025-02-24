@@ -1,8 +1,8 @@
 package com.sark.api.model;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,28 +13,15 @@ public class Produto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonProperty("name")
     private String nome;
-
-    @JsonProperty("description")
     private String descricao;
-
-    @JsonProperty("category")
     private String categoria;
 
-    @JsonProperty("price")
-    private double preco;
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<VariacaoProduto> variacoes = new HashSet<>();
 
-    @JsonProperty("stock")
-    private int estoque;
-
-    private String imagens;
-
-    // JSON envia um array de imagens
-    @JsonProperty("images")
-    public List<String> getImages() {
-        return this.imagens != null ? List.of(this.imagens) : List.of(); // Retorna uma lista vazia se for null
-    }
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ImagemProduto> imagens = new HashSet<>();
 
     // Getters e Setters
     public Long getId() {
@@ -69,27 +56,19 @@ public class Produto {
         this.categoria = categoria;
     }
 
-    public double getPreco() {
-        return preco;
+    public Set<VariacaoProduto> getVariacoes() {
+        return variacoes;
     }
 
-    public void setPreco(double preco) {
-        this.preco = preco;
+    public void setVariacoes(Set<VariacaoProduto> variacoes) {
+        this.variacoes = variacoes;
     }
 
-    public int getEstoque() {
-        return estoque;
-    }
-
-    public void setEstoque(int estoque) {
-        this.estoque = estoque;
-    }
-
-    public String getImagens() {
+    public Set<ImagemProduto> getImagens() {
         return imagens;
     }
 
-    public void setImagens(String imagens) {
+    public void setImagens(Set<ImagemProduto> imagens) {
         this.imagens = imagens;
     }
 }
