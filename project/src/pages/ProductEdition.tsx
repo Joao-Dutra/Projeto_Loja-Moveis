@@ -33,10 +33,9 @@ export interface Produto {
   imagens: ImagemProduto[];
 }
 
-type ModalMode = 'add' | 'edit' | null;
+type ModalMode = 'add' | 'edit' | 'addVariation' | 'editVariation' | null;
 
 export default function ProductEdition() {
-  // Estados para gerenciamento dos produtos
   const [showModal, setShowModal] = useState<ModalMode>(null);
   const [selectedProduto, setSelectedProduto] = useState<Produto | null>(null);
   const [produtos, setProdutos] = useState<Produto[]>([]);
@@ -49,10 +48,8 @@ export default function ProductEdition() {
   const [preco, setPreco] = useState<number>(0);
   const [imagemUrl, setImagemUrl] = useState<string>('');
 
-  // Estados para gerenciamento de variação
-  const [showVarModal, setShowVarModal] = useState<boolean>(false);
-  const [selectedProdutoForVar, setSelectedProdutoForVar] = useState<Produto | null>(null);
-  const [varData, setVarData] = useState<VariacaoProduto>({
+  const [selectedProdutoIdForNewVar, setSelectedProdutoIdForNewVar] = useState<number | null>(null);
+  const [newVarData, setNewVarData] = useState<VariacaoProduto>({
     cor: '',
     tamanho: '',
     material: '',
@@ -60,21 +57,28 @@ export default function ProductEdition() {
     estoque: 0,
   });
 
-  // Carrega os produtos ao montar o componente
+  const [selectedProdutoForVar, setSelectedProdutoForVar] = useState<Produto | null>(null);
+  const [editVarData, setEditVarData] = useState<VariacaoProduto>({
+    cor: '',
+    tamanho: '',
+    material: '',
+    preco: 0,
+    estoque: 0,
+  });
+
   useEffect(() => {
     fetchProdutos()
       .then((data) => {
         const produtosFormatados = data.map((produto: Produto) => ({
           ...produto,
-          variacoes: Array.from(produto.variacoes || []), // Converte Set para Array
-          imagens: Array.from(produto.imagens || []), // Converte Set para Array
+          variacoes: Array.from(produto.variacoes || []),
+          imagens: Array.from(produto.imagens || []),
         }));
         setProdutos(produtosFormatados);
       })
       .catch((error) => console.error('Erro ao buscar produtos:', error));
   }, []);
-  
-  
+
   const resetForm = () => {
     setFormData({ nome: '', descricao: '', categoria: '', preco: 0 });
     setPreco(0);
@@ -85,30 +89,32 @@ export default function ProductEdition() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Para criação, enviamos variacoes como array vazio, pois o produto ainda não existe
-    const produtoData: Omit<Produto, 'id'> = {
-      ...formData,
-      variacoes: showModal === 'edit' ? [{ cor: '', tamanho: '', material: '', preco, estoque: 0 }] : [],
-      imagens: [{ url: imagemUrl }],
+
+    const produtoData = {
+      id: selectedProduto?.id || 0, // Define o ID ou 0 caso seja undefined
+      nome: formData.nome,
+      descricao: formData.descricao,
+      categoria: formData.categoria,
+      preco: preco,
+      variacoes: selectedProduto?.variacoes || [],
+      imagens: [{ url: imagemUrl }]
     };
 
-    if (showModal === 'add') {
-      try {
+    try {
+      if (selectedProduto?.id) {
+        const produtoAtualizado = await updateProduto(selectedProduto.id.toString(), produtoData);
+        setProdutos(produtos.map((p) => (p.id === selectedProduto?.id ? produtoAtualizado : p)));
+      } else {
         const novoProduto = await createProduto(produtoData);
         setProdutos([...produtos, novoProduto]);
-      } catch (error) {
-        console.error('Erro ao criar produto:', error);
       }
-    } else if (showModal === 'edit' && selectedProduto) {
-      try {
-        const produtoAtualizado = await updateProduto(selectedProduto.id.toString(), produtoData);
-        setProdutos(produtos.map((p) => (p.id === selectedProduto.id ? produtoAtualizado : p)));
-      } catch (error) {
-        console.error('Erro ao atualizar produto:', error);
-      }
+      resetForm();
+    } catch (error) {
+      console.error('Erro ao atualizar ou criar produto:', error);
     }
-    resetForm();
   };
+
+
 
   const handleEdit = (produto: Produto) => {
     setSelectedProduto(produto);
@@ -134,75 +140,72 @@ export default function ProductEdition() {
     }
   };
 
-  // Abre o modal de variação e carrega os dados da variação
-  const handleEditVariacao = (produto: Produto) => {
-    setSelectedProdutoForVar(produto);
-    if (produto.variacoes && produto.variacoes.length > 0) {
-      // Seleciona a primeira variação como padrão
-      const v = produto.variacoes[0];
-      setVarData({
-        id: v.id,
-        cor: v.cor || '',
-        tamanho: v.tamanho || '',
-        material: v.material || '',
-        preco: v.preco || 0,
-        estoque: v.estoque || 0,
+  const handleAddVariation = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedProdutoIdForNewVar) return;
+
+    try {
+      const newVar = await createVariacaoProduto({
+        ...newVarData,
+        produto: { id: selectedProdutoIdForNewVar },
       });
-    } else {
-      setVarData({ cor: '', tamanho: '', material: '', preco: 0, estoque: 0 });
+
+      setProdutos(
+        produtos.map((prod) =>
+          prod.id === selectedProdutoIdForNewVar
+            ? { ...prod, variacoes: [...prod.variacoes, newVar] }
+            : prod
+        )
+      );
+
+      setShowModal(null);
+      setNewVarData({
+        cor: '',
+        tamanho: '',
+        material: '',
+        preco: 0,
+        estoque: 0,
+      });
+    } catch (error) {
+      console.error('Erro ao adicionar variação:', error);
     }
-    setShowVarModal(true);
   };
 
-  const handleVarSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedProdutoForVar) return;
+  const handleEditVariation = (produto: Produto, variacao: VariacaoProduto) => {
+    setSelectedProdutoForVar(produto);
+    setEditVarData(variacao);
+    setShowModal('editVariation');
+  };
 
-    // Se varData.id estiver definido, atualiza a variação; caso contrário, cria nova
-    if (varData.id !== undefined) {
-      try {
-        const updatedVar = await updateVariacaoProduto(varData.id.toString(), varData);
-        setProdutos(
-          produtos.map((prod) =>
-            prod.id === selectedProdutoForVar.id
-              ? {
-                  ...prod,
-                  variacoes: prod.variacoes.map((v) =>
-                    v.id === varData.id ? updatedVar : v
-                  ),
-                }
-              : prod
-          )
-        );
-      } catch (error) {
-        console.error('Erro ao atualizar variação:', error);
-      }
-    } else {
-      try {
-        console.log("Criando variação para produto:", selectedProdutoForVar.id, varData);
-        const newVar = await createVariacaoProduto({
-          ...varData,
-          // Inclui o relacionamento com o produto
-          produto: { id: selectedProdutoForVar.id },
-        });
-        setProdutos(
-          produtos.map((prod) =>
-            prod.id === selectedProdutoForVar.id
-              ? { ...prod, variacoes: [...prod.variacoes, newVar] }
-              : prod
-          )
-        );
-      } catch (error) {
-        console.error('Erro ao criar variação:', error);
-      }
+  const handleEditVariationSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedProdutoForVar || !editVarData.id) return;
+
+    try {
+      const updatedVar = await updateVariacaoProduto(editVarData.id.toString(), editVarData);
+
+      setProdutos(
+        produtos.map((prod) =>
+          prod.id === selectedProdutoForVar.id
+            ? {
+              ...prod,
+              variacoes: prod.variacoes.map((v) =>
+                v.id === editVarData.id ? updatedVar : v
+              ),
+            }
+            : prod
+        )
+      );
+
+      setShowModal(null);
+    } catch (error) {
+      console.error('Erro ao editar variação:', error);
     }
-    setShowVarModal(false);
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Botão moderno para adicionar produto */}
-      <div className="flex justify-center m-4">
+      <div className="flex justify-center m-4 space-x-4">
         <button
           onClick={() => setShowModal('add')}
           className="group relative flex items-center px-6 py-3 bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-semibold rounded-md shadow-lg hover:from-indigo-600 hover:to-blue-600 transition-all"
@@ -210,20 +213,22 @@ export default function ProductEdition() {
           <Plus className="h-6 w-6 mr-2 transition-transform group-hover:rotate-90" />
           Adicionar Produto
         </button>
+
+        <button
+          onClick={() => setShowModal('addVariation')}
+          className="group relative flex items-center px-6 py-3 bg-gradient-to-r from-green-500 to-teal-500 text-white font-semibold rounded-md shadow-lg hover:from-green-600 hover:to-teal-600 transition-all"
+        >
+          <Plus className="h-6 w-6 mr-2 transition-transform group-hover:rotate-90" />
+          Adicionar Variação
+        </button>
       </div>
+
       <main className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        {/* Grid de Produtos */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {produtos.map((produto) => (
             <div key={produto.id} className="relative">
               <ProductCard product={produto} />
               <div className="absolute top-4 right-4 flex space-x-2">
-                <button
-                  onClick={() => handleEditVariacao(produto)}
-                  className="p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors"
-                >
-                  <Sliders className="h-4 w-4 text-green-600" />
-                </button>
                 <button
                   onClick={() => handleEdit(produto)}
                   className="p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors"
@@ -236,13 +241,22 @@ export default function ProductEdition() {
                 >
                   <Trash2 className="h-4 w-4 text-red-600" />
                 </button>
+                {produto.variacoes.map((variacao) => (
+                  <button
+                    key={variacao.id}
+                    onClick={() => handleEditVariation(produto, variacao)}
+                    className="p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors"
+                  >
+                    <Sliders className="h-4 w-4 text-green-600" />
+                  </button>
+                ))}
               </div>
             </div>
           ))}
         </div>
 
         {/* Modal de Adição/Edição de Produto */}
-        {showModal && (
+        {showModal && (showModal === 'add' || showModal === 'edit') && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-xl p-6 w-full max-w-md relative">
               <button
@@ -332,30 +346,134 @@ export default function ProductEdition() {
           </div>
         )}
 
-        {/* Modal de Edição/Criação de Variação */}
-        {showVarModal && (
+        {/* Modal de Adição de Variação */}
+        {showModal === 'addVariation' && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-xl p-6 w-full max-w-md relative">
               <button
-                onClick={() => setShowVarModal(false)}
+                onClick={() => setShowModal(null)}
                 className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors"
               >
                 <X className="h-5 w-5 text-gray-500" />
               </button>
+              <h2 className="text-2xl font-semibold mb-6">Adicionar Variação</h2>
+
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Produto</label>
+                <select
+                  value={selectedProdutoIdForNewVar || ''}
+                  onChange={(e) => setSelectedProdutoIdForNewVar(Number(e.target.value))}
+                  className="w-full rounded-md border border-gray-300 py-2 px-3"
+                  required
+                >
+                  <option value="">Selecione um produto</option>
+                  {produtos.map((produto) => (
+                    <option key={produto.id} value={produto.id}>
+                      {produto.nome}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <form onSubmit={handleAddVariation} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Cor</label>
+                  <input
+                    type="text"
+                    value={newVarData.cor}
+                    onChange={(e) => setNewVarData({ ...newVarData, cor: e.target.value })}
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Tamanho</label>
+                  <input
+                    type="text"
+                    value={newVarData.tamanho}
+                    onChange={(e) => setNewVarData({ ...newVarData, tamanho: e.target.value })}
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Material</label>
+                  <input
+                    type="text"
+                    value={newVarData.material}
+                    onChange={(e) => setNewVarData({ ...newVarData, material: e.target.value })}
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    required
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Preço</label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      value={newVarData.preco}
+                      onChange={(e) => setNewVarData({ ...newVarData, preco: Number(e.target.value) })}
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Estoque</label>
+                    <input
+                      type="number"
+                      value={newVarData.estoque}
+                      onChange={(e) => setNewVarData({ ...newVarData, estoque: Number(e.target.value) })}
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="flex justify-end space-x-3 mt-6">
+                  <button
+                    type="button"
+                    onClick={() => setShowModal(null)}
+                    className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                  >
+                    Adicionar Variação
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* Modal de Edição de Variação */}
+        {showModal === 'editVariation' && selectedProdutoForVar && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div className="bg-white rounded-xl p-6 w-full max-w-md relative">
+              <button
+                onClick={() => setShowModal(null)}
+                className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors"
+              >
+                <X className="h-5 w-5 text-gray-500" />
+              </button>
+
               <h2 className="text-2xl font-semibold mb-6">Editar Variação</h2>
-              {selectedProdutoForVar && selectedProdutoForVar.variacoes.length > 0 && (
+
+              {/* Dropdown para selecionar a variação */}
+              {selectedProdutoForVar.variacoes.length > 0 && (
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-700 mb-1">Selecione a Variação</label>
                   <select
-                    value={varData.id ? varData.id.toString() : ""}
+                    value={editVarData.id ? editVarData.id.toString() : ""}
                     onChange={(e) => {
                       const selectedId = Number(e.target.value);
-                      const selectedVar = selectedProdutoForVar.variacoes.find(
-                        (v, index) =>
-                          v.id !== undefined ? v.id === selectedId : index === selectedId
-                      );
+                      const selectedVar = selectedProdutoForVar.variacoes.find((v) => v.id === selectedId);
+
                       if (selectedVar) {
-                        setVarData({
+                        setEditVarData({
                           id: selectedVar.id,
                           cor: selectedVar.cor || '',
                           tamanho: selectedVar.tamanho || '',
@@ -369,72 +487,80 @@ export default function ProductEdition() {
                     required
                   >
                     <option value="">Selecione uma variação</option>
-                    {selectedProdutoForVar.variacoes.map((v, index) => (
-                      <option key={v.id ?? index} value={v.id ?? index}>
-                        {(v.cor || "Sem cor")} - {(v.tamanho || "Sem tamanho")} - {(v.material || "Sem material")}
+                    {selectedProdutoForVar.variacoes.map((v) => (
+                      <option key={v.id} value={v.id}>
+                        {v.cor || "Sem cor"} - {v.tamanho || "Sem tamanho"} - {v.material || "Sem material"}
                       </option>
                     ))}
                   </select>
                 </div>
               )}
-              <form onSubmit={handleVarSubmit} className="space-y-4">
+
+              {/* Formulário de Edição da Variação */}
+              <form onSubmit={handleEditVariationSubmit} className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Cor</label>
                   <input
                     type="text"
-                    value={varData.cor}
-                    onChange={(e) => setVarData({ ...varData, cor: e.target.value || '' })}
+                    value={editVarData.cor}
+                    onChange={(e) => setEditVarData({ ...editVarData, cor: e.target.value })}
                     className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     required
                   />
                 </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Tamanho</label>
                   <input
                     type="text"
-                    value={varData.tamanho}
-                    onChange={(e) => setVarData({ ...varData, tamanho: e.target.value || '' })}
+                    value={editVarData.tamanho}
+                    onChange={(e) => setEditVarData({ ...editVarData, tamanho: e.target.value })}
                     className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     required
                   />
                 </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Material</label>
                   <input
                     type="text"
-                    value={varData.material}
-                    onChange={(e) => setVarData({ ...varData, material: e.target.value || '' })}
+                    value={editVarData.material}
+                    onChange={(e) => setEditVarData({ ...editVarData, material: e.target.value })}
                     className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     required
                   />
                 </div>
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Preço</label>
                     <input
                       type="number"
                       step="0.01"
-                      value={varData.preco}
-                      onChange={(e) => setVarData({ ...varData, preco: Number(e.target.value) })}
+                      value={editVarData.preco}
+                      onChange={(e) => setEditVarData({ ...editVarData, preco: Number(e.target.value) })}
                       className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                       required
                     />
                   </div>
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Estoque</label>
                     <input
                       type="number"
-                      value={varData.estoque}
-                      onChange={(e) => setVarData({ ...varData, estoque: Number(e.target.value) })}
+                      value={editVarData.estoque}
+                      onChange={(e) => setEditVarData({ ...editVarData, estoque: Number(e.target.value) })}
                       className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                       required
                     />
                   </div>
                 </div>
+
+                {/* Botões de Ação */}
                 <div className="flex justify-end space-x-3 mt-6">
                   <button
                     type="button"
-                    onClick={() => setShowVarModal(false)}
+                    onClick={() => setShowModal(null)}
                     className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
                   >
                     Cancelar
@@ -450,6 +576,7 @@ export default function ProductEdition() {
             </div>
           </div>
         )}
+
       </main>
     </div>
   );
