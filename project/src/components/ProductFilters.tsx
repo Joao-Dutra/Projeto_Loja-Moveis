@@ -47,9 +47,14 @@ export function ProductFilters({
         <h2 className="text-lg font-semibold mb-4">Filters</h2>
         <button 
           onClick={handleClearFilters} 
-          className="text-sm text-blue-600 hover:underline"
+          className="flex items-center text-blue-600 hover:underline"
         >
-          Limpar Filtros
+          <img
+            src={filtroIcon}
+            alt="Limpar Filtros"
+            style={{ width: '28px', height: '28px' }}
+          />
+         
         </button>
       </div>
       
