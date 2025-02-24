@@ -54,7 +54,7 @@ export function ProductFilters({
         </div>
 
         <div>
-          <h3 className="text-sm font-medium text-gray-900 mb-2">Price Range</h3>
+          <h3 className="text-sm font-medium text-gray-900 mb-2">Faixa de Preço</h3>
           <div className="space-y-2">
             {priceRanges.map((range) => (
               <label key={range.label} className="flex items-center">
@@ -77,7 +77,7 @@ export function ProductFilters({
             onChange={(e) => onFilterChange('material', e.target.value)}
             className="w-full rounded-md border border-gray-300 py-2 px-3"
           >
-            <option value="">All Materials</option>
+            <option value="">Todos os Materiais</option>
             {materials.map((material) => (
               <option key={material} value={material}>
                 {material}
@@ -93,7 +93,7 @@ export function ProductFilters({
             onChange={(e) => onFilterChange('style', e.target.value)}
             className="w-full rounded-md border border-gray-300 py-2 px-3"
           >
-            <option value="">All Styles</option>
+            <option value="">Todos os Estilos</option>
             {styles.map((style) => (
               <option key={style} value={style}>
                 {style}
@@ -103,7 +103,7 @@ export function ProductFilters({
         </div>
 
         <div>
-          <h3 className="text-sm font-medium text-gray-900 mb-2">Color</h3>
+          <h3 className="text-sm font-medium text-gray-900 mb-2">Cor</h3>
           <div className="grid grid-cols-4 gap-2">
             {colors.map((color) => (
               <button
@@ -122,7 +122,7 @@ export function ProductFilters({
         </div>
 
         <div>
-          <h3 className="text-sm font-medium text-gray-900 mb-2">Size</h3>
+          <h3 className="text-sm font-medium text-gray-900 mb-2">Tamanho</h3>
           <div className="grid grid-cols-2 gap-2">
             {sizes.map((size) => (
               <button

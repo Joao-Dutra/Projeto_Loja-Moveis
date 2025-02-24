@@ -72,17 +72,17 @@ export function ShopPage() {
       <div className="grid grid-cols-4 gap-8">
         <div className="col-span-1">
           <ProductFilters
-            categories={['Sofas', 'Chairs', 'Tables', 'Poltrona', 'Estante', 'Guarda-Roupa', 'Cama', 'Rack']}
-            colors={['Red', 'Blue', 'Green', 'Cinza', 'Marrom', 'Branco', 'Bege', 'Natural']}
-            sizes={['Small', 'Medium', 'Large', 'Pequeno', 'Médio', 'Grande']}
-            materials={['Wood', 'Metal', 'Fabric', 'Madeira', 'Madeira Maciça', 'Madeira Nobre', 'Tecido']}
-            styles={['Modern', 'Classic', 'Rustic']}
+            categories={['Sofá', 'Cadeira', 'Mesa', 'Poltrona', 'Estante', 'Guarda-Roupa', 'Cama', 'Rack']}
+            colors={['Cinza', 'Marrom', 'Branco', 'Bege', 'Natural']}
+            sizes={['Pequeno', 'Médio', 'Grande']}
+            materials={['Madeira', 'Madeira Maciça', 'Madeira Nobre', 'Tecido']}
+            styles={['Moderno', 'Classico', 'Rústico']}
             priceRanges={[
-              { min: 0, max: 299.99, label: 'Under $300' },
-              { min: 300, max: 599.99, label: '$300 - $599' },
-              { min: 600, max: 999.99, label: '$600 - $999' },
-              { min: 1000, max: 1499.99, label: '$1000 - $1499' },
-              { min: 1500, max: Infinity, label: '$1500+' }
+              { min: 0, max: 299.99, label: 'Abaixo de R$300' },
+              { min: 300, max: 599.99, label: 'R$300 - R$599' },
+              { min: 600, max: 999.99, label: 'R$600 - R$999' },
+              { min: 1000, max: 1499.99, label: 'R$1000 - R$1499' },
+              { min: 1500, max: Infinity, label: 'R$1500+' }
             ]}
             selectedFilters={selectedFilters}
             onFilterChange={handleFilterChange}

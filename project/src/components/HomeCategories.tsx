@@ -3,27 +3,27 @@ import { useNavigate } from 'react-router-dom';
 
 const categories = [
   {
-    name: 'Living Room',
+    name: 'Sala de Estar',
     image: 'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
     description: 'Crie o seu espaço de vida perfeito'
   },
   {
-    name: 'Bedroom',
+    name: 'Quarto',
     image: 'https://images.unsplash.com/photo-1505693314120-0d443867891c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80',
     description: 'Descanse com estilo e conforto'
   },
   {
-    name: 'Dining Room',
+    name: 'Sala de Jantar',
     image: 'https://images.unsplash.com/photo-1577140917170-285929fb55b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1974&q=80',
     description: 'Reúna-se com elegância'
   },
   {
-    name: 'Office',
+    name: 'Escritório',
     image: 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80',
     description: 'Soluções profissionais para espaços de trabalho'
   },
   {
-    name: 'Outdoor',
+    name: 'Quintal',
     image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1974&q=80',
     description: 'Desfrute do ar livre com estilo'
   }

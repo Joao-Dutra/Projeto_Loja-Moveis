@@ -15,7 +15,7 @@ export function HomePage() {
         <div className="absolute inset-0 bg-black bg-opacity-40" />
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-white">
-            <h1 className="text-5xl font-bold mb-4">Bem Vindo a loja de imoveis Nossa Senhora das Graças</h1>
+            <h1 className="text-5xl font-bold mb-4">Sejam Bem Vindos!</h1>
             <p className="text-xl mb-8">Fundada em 1989</p>
             <Link
               to="/shop"
@@ -37,18 +37,18 @@ export function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <h3 className="text-lg font-semibold mb-2">Entrega grátis</h3>
+              <h3 className="text-lg font-semibold mb-2">Entrega Grátis</h3>
               <p className="text-gray-600">Acima de R$1500</p>
             </div>
             <div className="text-center">
               <h3 className="text-lg font-semibold mb-2">
-              Montagem especializada</h3>
-              <p className="text-gray-600">Instalação profissional disponível</p>
+              Montagem Especializada</h3>
+              <p className="text-gray-600">Instalação Profissional Disponível</p>
             </div>
             <div className="text-center">
               <h3 className="text-lg font-semibold mb-2">
               Pagamento Flexível</h3>
-              <p className="text-gray-600">Múltiplas opções de pagamento</p>
+              <p className="text-gray-600">Múltiplas Opções de Pagamento</p>
             </div>
           </div>
         </div>

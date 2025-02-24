@@ -54,8 +54,6 @@ export function ProductPage() {
 
   // Adicionar produto ao carrinho
   const handleAddToCart = () => {
-    console.log("Produto:", product); // Verifique no console do navegador
-
     if (!product || !product.variacoes) {
       alert("Erro: Produto ou variações não carregadas.");
       return;

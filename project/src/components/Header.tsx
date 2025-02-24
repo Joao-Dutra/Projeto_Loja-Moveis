@@ -19,24 +19,24 @@ export function Header() {
             </span>
             <span className="flex items-center">
               <MapPin className="h-4 w-4 mr-2" />
-              Rua Marechal Floriano Peixoto, 207, São Sebastião 
+              Rua Marechal Floriano Peixoto, 207, São Sebastião
             </span>
           </div>
           <div>Seg-Sex: 8:00-17:00 | Sáb: 08:00-12:00</div>
         </div>
       </div>
-      
+
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <Link to="/" className="font-bold text-xl text-gray-800">
-            My Father's Store
+            Móveis Nossa Senhora Das Graças
           </Link>
 
           <div className="flex items-center space-x-8">
             <Link to="/" className="text-gray-600 hover:text-gray-900">
               Inicio
             </Link>
-            
+
             <Link to="/shop" className="text-gray-600 hover:text-gray-900">
               Móveis
             </Link>
@@ -47,8 +47,8 @@ export function Header() {
               Sobre
             </Link>
 
-            <Link 
-              to="/cart" 
+            <Link
+              to="/cart"
               className="text-gray-600 hover:text-gray-900 relative"
             >
               <ShoppingCart className="h-6 w-6" />
