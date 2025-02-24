@@ -64,10 +64,10 @@ export function CheckoutForm() {
     <form onSubmit={handleSubmit} className="max-w-2xl mx-auto p-6">
       <div className="space-y-8">
         <div>
-          <h2 className="text-xl font-semibold mb-4">Customer Information</h2>
+          <h2 className="text-xl font-semibold mb-4">Informação do comprador</h2>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">First Name</label>
+              <label className="block text-sm font-medium text-gray-700">Primeiro nome</label>
               <input
                 type="text"
                 value={customerInfo.firstName}
@@ -77,7 +77,7 @@ export function CheckoutForm() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Last Name</label>
+              <label className="block text-sm font-medium text-gray-700">Segundo nome</label>
               <input
                 type="text"
                 value={customerInfo.lastName}
@@ -97,7 +97,7 @@ export function CheckoutForm() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Phone</label>
+              <label className="block text-sm font-medium text-gray-700">Telefone</label>
               <InputMask
                 mask="(999) 999-9999"
                 value={customerInfo.phone}
@@ -110,19 +110,19 @@ export function CheckoutForm() {
         </div>
 
         <div>
-          <h2 className="text-xl font-semibold mb-4">Payment Method</h2>
+          <h2 className="text-xl font-semibold mb-4">Metodo de pagamento</h2>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Payment Type</label>
+              <label className="block text-sm font-medium text-gray-700">Tipo de pagamento</label>
               <select
                 value={paymentInfo.method}
                 onChange={(e) => setPaymentInfo({ ...paymentInfo, method: e.target.value as PaymentInfo['method'] })}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
               >
-                <option value="credit">Credit Card</option>
-                <option value="debit">Debit Card</option>
+                <option value="credit">Cartão de crédito</option>
+                <option value="debit">Cartão de debito</option>
                 <option value="pix">PIX</option>
-                <option value="bank-transfer">Bank Transfer</option>
+                <option value="bank-transfer">Transferencia</option>
               </select>
             </div>
 

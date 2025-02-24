@@ -9,12 +9,12 @@ export function CartPage() {
   if (items.length === 0) {
     return (
       <div className="text-center py-12">
-        <h2 className="text-2xl font-semibold mb-4">Your cart is empty</h2>
+        <h2 className="text-2xl font-semibold mb-4">Seu carrinho está vazio</h2>
         <Link
           to="/shop"
           className="inline-block bg-gray-900 text-white px-6 py-3 rounded-md hover:bg-gray-800"
         >
-          Continue Shopping
+          Continue comprando
         </Link>
       </div>
     );

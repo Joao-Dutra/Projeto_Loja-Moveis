@@ -6,23 +6,23 @@ import { useNavigate } from 'react-router-dom';
 
 const categories = [
   {
-    name: 'Living Room',
+    name: 'Sala de Estar',
     image: 'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
   },
   {
-    name: 'Bedroom',
+    name: 'Quarto',
     image: 'https://images.unsplash.com/photo-1505693314120-0d443867891c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80'
   },
   {
-    name: 'Dining Room',
+    name: 'Sala de Jantar',
     image: 'https://images.unsplash.com/photo-1577140917170-285929fb55b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1974&q=80'
   },
   {
-    name: 'Office',
+    name: 'Escritório',
     image: 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80'
   },
   {
-    name: 'Outdoor',
+    name: 'Quintal',
     image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1974&q=80'
   },
 ];
@@ -33,7 +33,7 @@ export function CategoryMenu() {
   return (
     <Menu as="div" className="relative">
       <Menu.Button className="flex items-center text-gray-600 hover:text-gray-900">
-        Categories
+        Categorias
         <ChevronDown className="ml-1 h-4 w-4" />
       </Menu.Button>
       <Menu.Items className="absolute z-10 mt-2 w-96 rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5">
