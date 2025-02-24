@@ -15,7 +15,7 @@ export function Header() {
           <div className="flex items-center space-x-4">
             <span className="flex items-center">
               <Phone className="h-4 w-4 mr-2" />
-              (031) 123-4567
+              (031) 90000-0000
             </span>
             <span className="flex items-center">
               <MapPin className="h-4 w-4 mr-2" />
