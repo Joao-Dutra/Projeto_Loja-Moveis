@@ -109,7 +109,7 @@ export function CartPage() {
                   ))}
                 </select>
                 <p className="font-semibold text-gray-900">
-                  ${(item.price * item.quantity).toFixed(2)}
+                  R${(item.price * item.quantity).toFixed(2)}
                 </p>
                 <button
                   onClick={() => removeItem(String(item.id))}
@@ -125,7 +125,7 @@ export function CartPage() {
 
       <div className="flex justify-between items-center border-t pt-6">
         <div>
-          <p className="text-lg font-semibold">Total: ${total().toFixed(2)}</p>
+          <p className="text-lg font-semibold">Total: R${total().toFixed(2)}</p>
           <p className="text-sm text-gray-500">Ou 12x de R${(total() / 12).toFixed(2)}</p>
         </div>
         <Link

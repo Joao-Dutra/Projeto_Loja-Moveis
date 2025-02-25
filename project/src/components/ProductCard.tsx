@@ -21,7 +21,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <p className="text-gray-600 line-clamp-2">{product.descricao}</p>
       <p className="text-xl font-semibold text-gray-900 mt-2">
         {product.variacoes?.[0]?.preco !== undefined
-          ? `$${product.variacoes[0].preco.toFixed(2)}`
+          ? `R$ ${product.variacoes[0].preco.toFixed(2)}`
           : "Preço não disponível"}
       </p>
     </div>

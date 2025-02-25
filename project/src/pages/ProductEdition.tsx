@@ -241,15 +241,15 @@ export default function ProductEdition() {
                 >
                   <Trash2 className="h-4 w-4 text-red-600" />
                 </button>
-                {produto.variacoes.map((variacao) => (
+                {produto.variacoes.length > 0 && (
                   <button
-                    key={variacao.id}
-                    onClick={() => handleEditVariation(produto, variacao)}
+                    onClick={() => handleEditVariation(produto, produto.variacoes[0])} // Apenas a primeira variação
                     className="p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors"
                   >
                     <Sliders className="h-4 w-4 text-green-600" />
                   </button>
-                ))}
+                )}
+
               </div>
             </div>
           ))}
