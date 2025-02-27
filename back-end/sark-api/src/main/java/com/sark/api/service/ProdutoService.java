@@ -31,6 +31,11 @@ public class ProdutoService {
     }
 
     public Produto salvarProduto(Produto produto) {
+        // Garante que ao criar um novo produto o ID seja nulo para que o banco de dados
+        // gere um novo
+        if (produto.getId() != null && produto.getId() == 0) {
+            produto.setId(null);
+        }
         return produtoRepository.save(produto);
     }
 
