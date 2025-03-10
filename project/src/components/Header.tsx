@@ -15,11 +15,11 @@ export function Header() {
           <div className="flex items-center space-x-4">
             <span className="flex items-center">
               <Phone className="h-4 w-4 mr-2" />
-              (031) 90000-0000
+              (01) 98765-4321
             </span>
             <span className="flex items-center">
               <MapPin className="h-4 w-4 mr-2" />
-              Rua Marechal Floriano Peixoto, 207, São Sebastião
+              Rua Exemplo, 123, Cidade Exemplo
             </span>
           </div>
           <div>Seg-Sex: 8:00-17:00 | Sáb: 08:00-12:00</div>
@@ -29,7 +29,7 @@ export function Header() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <Link to="/" className="font-bold text-xl text-gray-800">
-            Móveis Nossa Senhora Das Graças
+            Loja de Móveis
           </Link>
 
           <div className="flex items-center space-x-8">
