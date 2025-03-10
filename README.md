@@ -28,11 +28,12 @@ A **Loja de Móveis** é uma aplicação web desenvolvida para facilitar a compr
 ![image](https://github.com/user-attachments/assets/02143b57-3a5c-4e9e-b099-2d606e5742c0)
 *Visualização dos móveis disponíveis.*
 
-![image](https://github.com/user-attachments/assets/produto.jpg)
+![image](https://github.com/user-attachments/assets/0321a288-ca12-493f-b591-832f4903399a)
 *Detalhes de um móvel específico.*
 
-![image](https://github.com/user-attachments/assets/0321a288-ca12-493f-b591-832f4903399a)
+![image](https://github.com/user-attachments/assets/da467021-7e1b-4110-8ca3-31d31858d966)
 *Painel de edição de produtos.*
+
 
 ---
 
