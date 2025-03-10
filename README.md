@@ -35,10 +35,6 @@ A **Loja de Móveis** é uma aplicação web desenvolvida para facilitar a compr
 *Painel de edição de produtos.*
 
 
----
-
-### Este projeto foi desenvolvido como parte de um portfólio, demonstrando integração de front-end e back-end, bem como um sistema de pagamentos seguro.
-
 
 
 
